@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Competitor Landscape</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #a8e6cf, #dcedc1, #b3e5fc, #81d4fa);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-top: 40px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    .search-container input {
+      padding: 10px;
+      font-size: 1em;
+      width: 300px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .grid-item {
+      background: linear-gradient(135deg, #80deea, #4dd0e1);
+      color: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      font-size: 1.2em;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .grid-item:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #26c6da, #00acc1);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal {
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+
+    .company-bubble {
+      display: inline-block;
+      background-color: #c8e6c9;
+      color: #333;
+      margin: 8px;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .company-bubble:hover {
+      background-color: #a5d6a7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Competitor Landscape</h1>
+  <div class="search-container">
+    <input type="text" placeholder="Search companies... (coming soon)" disabled />
+  </div>
+  <div class="grid">
+    <div class="grid-item" onclick="openModal('BESS Providers', ['Tesla Energy','Fluence','Smartville','RePurpose Energy','Relectrify','B2U Storage','LG Energy Solution','Blue Planet Energy'])">BESS Providers</div>
+    <div class="grid-item" onclick="openModal('BMS Providers', ['Nuvation Energy','Eberspächer','Valence','Relectrify','TWAICE'])">BMS Providers</div>
+    <div class="grid-item" onclick="openModal('Data Analytics', ['FlexGen','AutoGrid','AMS','Stem Inc.','TWAICE','Invinity Energy Systems'])">Data Analytics</div>
+    <div class="grid-item" onclick="openModal('Integrators', ['Burns & McDonnell','Black & Veatch','ICF','Schneider Electric','Tesla Energy','Powin Energy'])">Integrators</div>
+    <div class="grid-item" onclick="openModal('Energy Management', ['Doosan GridTech','Greensmith (Wärtsilä)','AutoGrid','Stem Inc.','Enbala','Energy Toolbase'])">Energy Management</div>
+    <div class="grid-item" onclick="openModal('PCS / Inverters', ['Dynapower','SMA','Sungrow','ABB (Fimer)','Yaskawa Solectria','Relectrify'])">PCS / Inverters</div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="close-btn" onclick="closeModal()">&times;</div>
+      <h2 id="modalTitle"></h2>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    const companyData = {
+      "Burns & McDonnell": `
+        <strong>[INTEGRATORS]</strong><br>
+        <strong>Industry Segment:</strong> Engineering, Procurement & Construction (EPC) / Grid Modernization / Energy Storage & Infrastructure<br>
+        <strong>Headquarters:</strong> Kansas City, Missouri, USA<br>
+        <strong>Founded Year:</strong> 1898<br>
+        <strong>Funding:</strong> Privately held; 100% employee-owned through ESOP<br>
+        <strong>Core Products:</strong><br>
+        • EPC services for BESS, T&D, microgrids, and renewables<br>
+        • Prefabrication and self-perform construction through AZCO<br>
+        • Hydrogen and hybrid system consulting<br>
+        • Technology advisory through 1898 & Co.<br>
+        <strong>Target Market:</strong> Utilities, government agencies, renewable energy developers, commercial and industrial energy users<br>
+        <strong>Key Customers:</strong> Salt River Project, Plus Power, LG Energy Solution, Oncor, various U.S. utilities and IPPs<br>
+        <strong>Strengths:</strong><br>
+        • Over 3,000 MWh of BESS EPC experience<br>
+        • In-house construction capabilities for speed and cost control<br>
+        • Deep utility relationships and proven global infrastructure delivery<br>
+        <strong>Weaknesses:</strong><br>
+        • Larger organizational structure may reduce agility<br>
+        • Limited proprietary software or hardware<br>
+        • Premium pricing relative to smaller integrators<br>
+        <strong>Recent News:</strong><br>
+        • Completed Sierra Estrella 1 GWh BESS project in Arizona<br>
+        • Delivered Phase III of Moss Landing BESS project, bringing site total to 3,000 MWh<br>
+        • Named U.S. Best Managed Company for fourth consecutive year<br>
+        <strong>USP:</strong> Full-service EPC powerhouse delivering grid-scale storage and infrastructure with vertical integration, safety, and precision<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 3,000 MWh of battery storage systems deployed across the U.S. and international markets<br>
+      `,
+
+      "Doosan GridTech": `
+        <strong>[EMS]</strong><br>
+        <strong>Industry Segment:</strong> Utility-Scale Energy Storage / Energy Management Software / EPC<br>
+        <strong>Headquarters:</strong> Bellevue, Washington, USA<br>
+        <strong>Founded Year:</strong> 2011 (formerly 1Energy Systems; acquired by Doosan Heavy Industries)<br>
+        <strong>Funding:</strong> Subsidiary of Doosan Group; funded through parent investment<br>
+        <strong>Core Products:</strong><br>
+        • DG-IC® Intelligent Controller for BESS and grid operations<br>
+        • EPC services for large-scale battery storage<br>
+        • System integration, commissioning, and lifecycle support<br>
+        <strong>Target Market:</strong> Utilities, IPPs, solar and wind project developers, grid operators<br>
+        <strong>Key Customers:</strong> Austin Energy, Tampa Electric, LADWP, Vena Energy, Neoen<br>
+        <strong>Strengths:</strong><br>
+        • Software-agnostic system integrator with open standards<br>
+        • Strong track record across U.S. and Asia-Pacific<br>
+        • Utility-grade software with real-time DER coordination<br>
+        <strong>Weaknesses:</strong><br>
+        • Dependent on Doosan corporate strategy<br>
+        • Less visible brand outside core utility circles<br>
+        • Competes with faster-moving storage integrators<br>
+        <strong>Recent News:</strong><br>
+        • Delivered 100 MW / 200 MWh portfolio for Tampa Electric<br>
+        • Installed 41.5 MW BESS at Tailem Bend II in Australia<br>
+        • Leadership transition with new interim CEO in 2023<br>
+        <strong>USP:</strong> Combines global-scale EPC capabilities with flexible, hardware-agnostic software solutions for utility-scale storage<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 1,000 MWh deployed across North America and Asia-Pacific<br>
+      `,
+
+      "Dynapower": `
+        <strong>[PCS]</strong><br>
+        <strong>Industry Segment:</strong> Power Conversion Systems / Grid-Tied and Off-Grid Inverters / Energy Storage Integration<br>
+        <strong>Headquarters:</strong> South Burlington, Vermont, USA<br>
+        <strong>Founded Year:</strong> 1963<br>
+        <strong>Funding:</strong> Privately held; acquired by Sensata Technologies in 2022<br>
+        <strong>Core Products:</strong><br>
+        • DC-DC converters and bidirectional inverters<br>
+        • Utility-scale and C&I battery energy storage inverters<br>
+        • Microgrid-enabled power electronics<br>
+        • Turnkey containerized power systems<br>
+        <strong>Target Market:</strong> Utilities, microgrid developers, BESS integrators, defense and aerospace, EV charging infrastructure<br>
+        <strong>Key Customers:</strong> Tesla, U.S. Department of Defense, Wärtsilä, EOS Energy, various utility and military contractors<br>
+        <strong>Strengths:</strong><br>
+        • Long-standing expertise in high-power PCS and grid-tied inverters<br>
+        • Offers both standard and custom-engineered power electronics<br>
+        • High-voltage and islanding capabilities for microgrid and defense<br>
+        <strong>Weaknesses:</strong><br>
+        • Pure hardware play; limited proprietary EMS or controls software<br>
+        • Not vertically integrated beyond PCS and converters<br>
+        • Competitors offer bundled inverter+BESS platforms<br>
+        <strong>Recent News:</strong><br>
+        • Acquired by Sensata Technologies to expand grid-connected energy solutions<br>
+        • Partnered with key integrators for LDES and microgrid deployments<br>
+        <strong>USP:</strong> Trusted leader in high-reliability PCS with advanced bidirectional and grid-forming capabilities for demanding BESS applications<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Thousands of MW supported globally through inverter and DC converter deployments across storage, solar, and defense sectors<br>
+      `,
+
+      "Eberspächer": `
+        <strong>[BMS]</strong><br>
+        <strong>Industry Segment:</strong> Battery Management Systems / EV Thermal Systems / Mobile & Stationary Energy Solutions<br>
+        <strong>Headquarters:</strong> Esslingen am Neckar, Germany<br>
+        <strong>Founded Year:</strong> 1865<br>
+        <strong>Funding:</strong> Privately held, family-owned industrial company<br>
+        <strong>Core Products:</strong><br>
+        • Modular battery management systems (12V to 800V)<br>
+        • Thermal management and heating solutions for EVs and stationary storage<br>
+        • Battery electronics for high-voltage powerpacks<br>
+        • Integration software and control units<br>
+        <strong>Target Market:</strong> Automotive OEMs, energy storage integrators, commercial vehicle platforms, mobile energy applications<br>
+        <strong>Key Customers:</strong> Global Tier 1 auto suppliers, bus manufacturers, battery pack OEMs, off-grid system developers<br>
+        <strong>Strengths:</strong><br>
+        • Deep automotive-grade expertise in thermal and battery electronics<br>
+        • ISO-certified systems with automotive and industrial compliance<br>
+        • Modular, scalable BMS platform for varying voltage classes<br>
+        <strong>Weaknesses:</strong><br>
+        • Limited brand presence in U.S. stationary energy sector<br>
+        • Focused more on component supply than full-system delivery<br>
+        • Competes against newer BMS startups with software-first models<br>
+        <strong>Recent News:</strong><br>
+        • Launched next-gen modular BMS platform for 400V/800V systems<br>
+        • Expanded stationary storage offerings in Europe and Southeast Asia<br>
+        <strong>USP:</strong> Automotive-grade BMS and thermal platforms tailored for high-performance mobile and grid-connected battery applications<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Thousands of systems delivered globally; footprint spans EVs, buses, and grid-tied commercial battery platforms<br>
+      `,
+      "Black & Veatch": `
+        <strong>[INTEGRATORS]</strong><br>
+        <strong>Industry Segment:</strong> Engineering, Procurement & Construction (EPC) / Grid Modernization / Energy Storage<br>
+        <strong>Headquarters:</strong> Overland Park, Kansas, USA<br>
+        <strong>Founded Year:</strong> 1915<br>
+        <strong>Funding:</strong> Privately held; employee-owned<br>
+        <strong>Core Products:</strong><br>
+        • EPC services for utility-scale battery storage, renewables, and grid infrastructure<br>
+        • Microgrids, substations, and T&D design<br>
+        • Hydrogen and hybrid systems engineering<br>
+        • Consulting services via Black & Veatch’s “NextGen” energy solutions<br>
+        <strong>Target Market:</strong> Utilities, government agencies, energy developers, and industrial operators<br>
+        <strong>Key Customers:</strong> NextEra Energy, U.S. Department of Energy, Hawaiian Electric, and multiple global utilities<br>
+        <strong>Strengths:</strong><br>
+        • Over 100 years of infrastructure expertise<br>
+        • Trusted EPC partner for utility-scale storage and clean energy projects<br>
+        • Strong safety record and global workforce<br>
+        <strong>Weaknesses:</strong><br>
+        • Higher cost structure than smaller EPC firms<br>
+        • Limited in-house IP or software compared to vertically integrated players<br>
+        • Slower to adopt novel storage chemistries<br>
+        <strong>Recent News:</strong><br>
+        • Leading U.S. and Asia-Pacific BESS EPC projects over 100 MWh<br>
+        • Expanding hybrid microgrid offerings with solar + storage integration<br>
+        <strong>USP:</strong> Full-lifecycle partner offering design, engineering, and construction at global scale, with deep energy sector specialization<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 2,000 MWh of battery storage delivered globally through EPC contracts<br>
+      `,
+
+      "Blue Planet Energy": `
+        <strong>[BESS]</strong><br>
+        <strong>Industry Segment:</strong> Residential & Commercial Energy Storage / Microgrids / Backup Power<br>
+        <strong>Headquarters:</strong> Hawaiʻi, USA (R&D facility in Richmond, California)<br>
+        <strong>Founded Year:</strong> 2010<br>
+        <strong>Funding:</strong> Privately funded; raised ~$2.4 million in equity; structured as a Public Benefit Corporation<br>
+        <strong>Core Products:</strong><br>
+        • Blue Ion HI – stackable LFP battery system for homes and businesses<br>
+        • Blue Ion LX – modular, high-capacity commercial and microgrid storage<br>
+        • BlueWave – all-in-one home energy solution<br>
+        • Nāmaka – energy monitoring and control software<br>
+        <strong>Target Market:</strong> Homeowners, small and mid-sized businesses, remote communities, schools, resorts, and critical infrastructure<br>
+        <strong>Key Customers:</strong> Puerto Rican public schools, eco-resorts in Mexico, remote communities in Alaska and Hawaii, U.S. military<br>
+        <strong>Strengths:</strong><br>
+        • Proven off-grid and grid-optional performance in extreme environments<br>
+        • High-quality, long-life lithium iron phosphate (LFP) technology<br>
+        • Strong brand mission around sustainability and resilience<br>
+        <strong>Weaknesses:</strong><br>
+        • Smaller scale than global BESS competitors<br>
+        • Reliant on third-party cell suppliers<br>
+        • Announced wind-down of operations by end of 2025 due to supply constraints<br>
+        <strong>Recent News:</strong><br>
+        • Announced operational wind-down by December 2025<br>
+        • Expanded deployments in Puerto Rico and Pacific islands<br>
+        <strong>USP:</strong> Premium LFP storage systems optimized for remote and off-grid use, built with mission-driven engineering and long-term reliability<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 1 MWh per site at military and commercial locations; over 100 schools in Puerto Rico deployed with Blue Ion systems<br>
+      `,
+      "ABB (Fimer)": `
+        <strong>[PCS]</strong><br>
+        <strong>Industry Segment:</strong> Solar Inverters / Renewable Energy Electronics<br>
+        <strong>Headquarters:</strong> Vimercate and Terranuova Bracciolini, Italy<br>
+        <strong>Founded Year:</strong> 1944 (Fimer); acquired ABB’s solar inverter division in 2020<br>
+        <strong>Funding:</strong> Privately held; acquisition of ABB’s inverter business valued around $430 million<br>
+        <strong>Core Products:</strong><br>
+        • String and central solar inverters<br>
+        • Turnkey solar power stations<br>
+        • Monitoring and control software<br>
+        <strong>Target Market:</strong> Residential and commercial solar installers, utilities, EPC firms, microgrid developers<br>
+        <strong>Key Customers:</strong> Global EPCs, solar developers, and energy service providers across Europe, Asia-Pacific, and the Americas<br>
+        <strong>Strengths:</strong><br>
+        • Combined ABB’s legacy technology with Fimer’s flexibility<br>
+        • Global manufacturing and R&D presence<br>
+        • Among the top global inverter suppliers post-acquisition<br>
+        <strong>Weaknesses:</strong><br>
+        • Competitive price pressure from Asian manufacturers<br>
+        • Brand recognition shifted after ABB divestment<br>
+        • Integration risks post-merger<br>
+        <strong>Recent News:</strong><br>
+        • Expanded operations in Latin America and Southeast Asia<br>
+        • Rolled out new inverter platforms for residential and C&I markets<br>
+        <strong>USP:</strong> Delivers flexible, global-ready inverter solutions by integrating ABB’s technical reliability with agile product development<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 7,000 MW (7 GW) inverter shipments globally across 26+ countries<br>
+      `,
+
+      "AMS": `
+        <strong>[DATA]</strong><br>
+        <strong>Industry Segment:</strong> Energy Storage Software / Virtual Power Plants (VPP)<br>
+        <strong>Headquarters:</strong> San Francisco, California, USA<br>
+        <strong>Founded Year:</strong> 2012<br>
+        <strong>Funding:</strong> Privately funded; acquired by Fluence in 2020<br>
+        <strong>Core Products:</strong><br>
+        • AI-driven battery dispatch optimization platform<br>
+        • Virtual Power Plant (VPP) orchestration software<br>
+        • Market bidding and asset management tools for distributed energy resources (DERs)<br>
+        <strong>Target Market:</strong> Commercial and industrial facilities, utilities, energy asset operators, and DER aggregators<br>
+        <strong>Key Customers:</strong> Southern California Edison, CIT Group, SK E&S, SUSI Partners<br>
+        <strong>Strengths:</strong><br>
+        • Early leader in behind-the-meter battery aggregation<br>
+        • Strong AI and data science capabilities for real-time grid response<br>
+        • Developed one of the largest early VPPs in California (over 340 MWh)<br>
+        <strong>Weaknesses:</strong><br>
+        • Relied on third-party hardware integrators<br>
+        • Reduced control over hardware once portfolio management transitioned to others<br>
+        • Business narrowed to software-only focus prior to acquisition<br>
+        <strong>Recent News:</strong><br>
+        • Acquired by Fluence in October 2020 to enhance their AI and software stack<br>
+        • Earlier reassigned control of major Southern California battery assets to Stem Inc.<br>
+        <strong>USP:</strong> First-mover in commercial-scale, AI-optimized VPP systems that intelligently manage energy storage for both grid services and customer savings<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 342 MWh deployed across 86 behind-the-meter installations in Southern California<br>
+      `,
+
+      "AutoGrid": `
+        <strong>[DATA, EMS]</strong><br>
+        <strong>Industry Segment:</strong> AI-Powered Energy Management / Virtual Power Plants / DERMS<br>
+        <strong>Headquarters:</strong> Redwood City, California, USA<br>
+        <strong>Founded Year:</strong> 2011<br>
+        <strong>Funding:</strong> Over $75 million raised; acquired by Schneider Electric in 2022<br>
+        <strong>Core Products:</strong><br>
+        • AutoGrid Flex (VPP and DERMS platform)<br>
+        • AI-based demand response and grid orchestration software<br>
+        • Flexibility management tools for EVs, batteries, HVAC, and DERs<br>
+        <strong>Target Market:</strong> Utilities, energy retailers, grid operators, demand response aggregators, and energy service providers<br>
+        <strong>Key Customers:</strong> TotalEnergies, Southern California Edison, CPS Energy, CLP Hong Kong, NextEra Energy<br>
+        <strong>Strengths:</strong><br>
+        • Proven deployments in North America, Europe, and Asia<br>
+        • Highly flexible AI engine managing diverse DERs<br>
+        • Integration with legacy grid systems and modern assets<br>
+        <strong>Weaknesses:</strong><br>
+        • Competes with newer, more nimble VPP and EMS startups<br>
+        • Integration with hardware partners required for full system delivery<br>
+        • Long sales cycles due to utility procurement complexity<br>
+        <strong>Recent News:</strong><br>
+        • Acquired by Schneider Electric to expand digital grid capabilities<br>
+        • Expanding VPPs in India, Japan, and Southeast Asia<br>
+        <strong>USP:</strong> Unified, AI-powered DER orchestration platform that enables real-time grid balancing and market participation across multiple geographies<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Manages over 6,000 MW of flexible capacity across 15+ countries<br>
+      `,
+
+      "B2U Storage": `
+        <strong>[BESS]</strong><br>
+        <strong>Industry Segment:</strong> Second-Life EV Battery Repurposing / Utility-Scale Energy Storage<br>
+        <strong>Headquarters:</strong> Los Angeles, California, USA<br>
+        <strong>Founded Year:</strong> 2019<br>
+        <strong>Funding:</strong> Privately funded; supported by grants from the California Energy Commission and investment from Marubeni Corporation<br>
+        <strong>Core Products:</strong><br>
+        • EV Pack Storage (EVPS) system using intact retired EV battery packs<br>
+        • Battery cycling and performance tracking software<br>
+        • Containerized grid-tied energy storage systems<br>
+        <strong>Target Market:</strong> Utilities, independent power producers, grid service providers, solar-plus-storage developers<br>
+        <strong>Key Customers:</strong> Southern California Edison, EV OEM battery supply partners, Marubeni<br>
+        <strong>Strengths:</strong><br>
+        • First to operate commercial-scale second-life EV BESS in the U.S.<br>
+        • Cost advantage from reusing EV packs without disassembly<br>
+        • Modular, field-proven architecture<br>
+        <strong>Weaknesses:</strong><br>
+        • Relies on steady supply of compatible EV batteries<br>
+        • Limited scale beyond California<br>
+        • Competes with low-cost new lithium-ion systems<br>
+        <strong>Recent News:</strong><br>
+        • Operating a 25 MWh second-life battery project in Lancaster, CA<br>
+        • Secured strategic investment from Marubeni to support expansion<br>
+        <strong>USP:</strong> Enables direct reuse of EV batteries in their original form, reducing costs and extending battery life without costly remanufacturing<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 25 MWh deployed in California across pilot and commercial deployments<br>
+      `,
+
+      "Enbala": `
+        <strong>[EMS]</strong><br>
+        <strong>Industry Segment:</strong> Energy Management Systems / DER Optimization / Virtual Power Plants<br>
+        <strong>Headquarters:</strong> Denver, Colorado, USA<br>
+        <strong>Founded Year:</strong> 2003<br>
+        <strong>Funding:</strong> Privately funded; acquired by Generac Power Systems in 2020<br>
+        <strong>Core Products:</strong><br>
+        • Symphony by Enbala – real-time distributed energy resource (DER) optimization platform<br>
+        • Grid balancing and non-wires alternative orchestration tools<br>
+        • VPP aggregation for demand-side assets<br>
+        <strong>Target Market:</strong> Utilities, grid operators, commercial aggregators, and behind-the-meter DER networks<br>
+        <strong>Key Customers:</strong> Ontario IESO, PNM Resources, Green Mountain Power, Portland General Electric<br>
+        <strong>Strengths:</strong><br>
+        • Strong analytics engine for managing flexible loads<br>
+        • Seamless VPP coordination of nontraditional assets<br>
+        • Platform proven in grid services across multiple markets<br>
+        <strong>Weaknesses:</strong><br>
+        • Integration depends on third-party hardware and controls<br>
+        • Brand visibility decreased after Generac acquisition<br>
+        • Competes with newer EMS platforms offering full-stack solutions<br>
+        <strong>Recent News:</strong><br>
+        • Deepening integration with Generac’s DER control suite<br>
+        • Deployed Symphony platform for new DR markets in the U.S. Northeast<br>
+        <strong>USP:</strong> Pioneering DER orchestration platform enabling flexible demand-side participation in real-time utility and wholesale markets<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Aggregated over 1,000 MW of flexible DERs in North America and Australia<br>
+      `,
+
+      "Energy Toolbase": `
+        <strong>[EMS]</strong><br>
+        <strong>Industry Segment:</strong> Energy Storage Modeling / EMS / Project Optimization Software<br>
+        <strong>Headquarters:</strong> Stuart, Florida, USA<br>
+        <strong>Founded Year:</strong> 2014<br>
+        <strong>Funding:</strong> Acquired by Pason Power in 2019; part of Pason Systems Inc.<br>
+        <strong>Core Products:</strong><br>
+        • Acumen EMS – real-time energy storage control software<br>
+        • Energy Toolbase platform – financial modeling and project sizing<br>
+        • Solar + storage simulation and proposal generation tools<br>
+        <strong>Target Market:</strong> Solar and storage developers, C&I integrators, asset owners, project financiers<br>
+        <strong>Key Customers:</strong> Distributed energy developers, solar EPCs, battery OEMs, third-party energy financiers<br>
+        <strong>Strengths:</strong><br>
+        • Easy-to-use platform integrating financial modeling with EMS<br>
+        • Widely used among solar+storage developers for behind-the-meter projects<br>
+        • Cloud-based architecture for remote control and optimization<br>
+        <strong>Weaknesses:</strong><br>
+        • Less proven in utility-scale front-of-meter deployments<br>
+        • Competes with larger EMS providers offering bundled hardware<br>
+        • Scale limited by C&I market fragmentation<br>
+        <strong>Recent News:</strong><br>
+        • Rolled out enhancements for Acumen EMS in multi-site portfolios<br>
+        • Expanded integrations with battery and inverter manufacturers<br>
+        <strong>USP:</strong> End-to-end platform enabling accurate storage modeling, project planning, and turnkey EMS deployment in C&I markets<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Hundreds of projects deployed across North America; controlling over 100 MWh of C&I battery systems<br>
+      `,
+  
+      "FlexGen": `
+        <strong>[DATA]</strong><br>
+        <strong>Industry Segment:</strong> Energy Storage Integration / Controls & Analytics / Fleet Optimization<br>
+        <strong>Headquarters:</strong> Durham, North Carolina, USA<br>
+        <strong>Founded Year:</strong> 2009<br>
+        <strong>Funding:</strong> Over $250 million raised from Apollo Global Management, Altira Group, and other investors<br>
+        <strong>Core Products:</strong><br>
+        • HybridOS – controls, analytics, and energy management platform<br>
+        • SCADA, forecasting, bidding, and asset performance software<br>
+        • Turnkey integration and long-term support for BESS projects<br>
+        <strong>Target Market:</strong> Utilities, IPPs, developers, asset managers, and energy traders<br>
+        <strong>Key Customers:</strong> sPower, Clearway Energy, Aypa Power, U.S. military, municipal utilities<br>
+        <strong>Strengths:</strong><br>
+        • Controls over 5 GWh of deployed energy storage capacity<br>
+        • Software-first approach with advanced analytics and performance tools<br>
+        • Strong track record in both standalone storage and hybrid systems<br>
+        <strong>Weaknesses:</strong><br>
+        • Dependent on third-party BESS hardware vendors<br>
+        • Competes with vertically integrated OEMs offering full solutions<br>
+        • Complexity of software may require longer onboarding for smaller customers<br>
+        <strong>Recent News:</strong><br>
+        • Closed $100M+ funding round to scale HybridOS platform<br>
+        • Partnered on multiple ERCOT and CAISO storage sites<br>
+        <strong>USP:</strong> High-performance software suite for managing, optimizing, and scaling grid-scale battery assets across diverse use cases<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 5,000 MWh controlled globally across utility and IPP storage fleets<br>
+      `,
+
+      "Fluence": `
+        <strong>[BESS]</strong><br>
+        <strong>Industry Segment:</strong> Grid-Scale Battery Energy Storage / Controls & Optimization / Turnkey Storage Systems<br>
+        <strong>Headquarters:</strong> Arlington, Virginia, USA<br>
+        <strong>Founded Year:</strong> 2018 (joint venture between Siemens and AES)<br>
+        <strong>Funding:</strong> Publicly traded (NASDAQ: FLNC); backed by Siemens, AES, Qatar Investment Authority, and institutional investors<br>
+        <strong>Core Products:</strong><br>
+        • Gridstack, Sunstack, Edgestack – modular energy storage hardware<br>
+        • Fluence IQ – AI-based optimization and bidding platform<br>
+        • Energy storage integration, operations, and lifecycle services<br>
+        <strong>Target Market:</strong> Utilities, IPPs, energy traders, grid operators, and storage developers<br>
+        <strong>Key Customers:</strong> AES, Ørsted, Recurrent Energy, LS Power, ENGIE, and multiple grid operators globally<br>
+        <strong>Strengths:</strong><br>
+        • One of the largest global energy storage integrators<br>
+        • Combined hardware, software, and service offering<br>
+        • Global supply chain and R&D backing from Siemens and AES<br>
+        <strong>Weaknesses:</strong><br>
+        • Large-scale focus may not serve smaller or mid-size developers well<br>
+        • Hardware costs impacted by supply chain fluctuations<br>
+        • Faces tight competition from new entrants and OEMs with vertically integrated stacks<br>
+        <strong>Recent News:</strong><br>
+        • Operating over 15 GWh of storage assets globally<br>
+        • Launched updated Gridstack 6 with enhanced safety and energy density<br>
+        • Expanded Fluence IQ optimization platform across North America and Europe<br>
+        <strong>USP:</strong> Comprehensive utility-grade storage solution offering hardware, AI optimization, and long-term asset services at global scale<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 15,000 MWh deployed or contracted across 40+ global markets<br>
+      `,
+
+      "Greensmith (Wärtsilä)": `
+        <strong>[EMS]</strong><br>
+        <strong>Industry Segment:</strong> Energy Management Systems / Hybrid Power Plants / Energy Storage Integration<br>
+        <strong>Headquarters:</strong> Herndon, Virginia, USA<br>
+        <strong>Founded Year:</strong> 2008 (acquired by Wärtsilä in 2017)<br>
+        <strong>Funding:</strong> Subsidiary of Wärtsilä Corporation (Finland-based energy and marine technology company)<br>
+        <strong>Core Products:</strong><br>
+        • GEMS – Greensmith Energy Management System<br>
+        • GridSolv Quantum – modular battery storage hardware<br>
+        • Engineering, procurement, and system integration services<br>
+        <strong>Target Market:</strong> Utilities, microgrid developers, island grids, and hybrid renewable projects<br>
+        <strong>Key Customers:</strong> APS, AGL Energy, Tata Power, E.ON, Caribbean utilities<br>
+        <strong>Strengths:</strong><br>
+        • GEMS platform integrates renewables, storage, and generation in real time<br>
+        • Backed by Wärtsilä’s engineering, global logistics, and service capabilities<br>
+        • Strong presence in hybrid and remote energy projects<br>
+        <strong>Weaknesses:</strong><br>
+        • Smaller brand visibility in U.S. standalone storage market<br>
+        • Focused more on integrated projects vs. standalone BESS sales<br>
+        • Heavier integration requires longer project lead times<br>
+        <strong>Recent News:</strong><br>
+        • Delivered hybrid projects in Australia and Southeast Asia<br>
+        • Expanded GEMS functionality to support grid-forming inverters and renewables forecasting<br>
+        <strong>USP:</strong> Advanced EMS platform for hybrid systems combining renewables, thermal, and storage under unified control<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 1,200 MWh of systems integrated globally through GEMS platform<br>
+      `,
+
+      "ICF": `
+        <strong>[INTEGRATORS]</strong><br>
+        <strong>Industry Segment:</strong> Energy Consulting / Grid Strategy / BESS Project Management<br>
+        <strong>Headquarters:</strong> Fairfax, Virginia, USA<br>
+        <strong>Founded Year:</strong> 1969<br>
+        <strong>Funding:</strong> Publicly traded (NASDAQ: ICFI)<br>
+        <strong>Core Products:</strong><br>
+        • Strategy and implementation consulting for utilities and government<br>
+        • Storage and DER interconnection support<br>
+        • Market analytics, electrification planning, and energy equity modeling<br>
+        <strong>Target Market:</strong> Utilities, federal and state energy agencies, municipalities, and energy program administrators<br>
+        <strong>Key Customers:</strong> U.S. Department of Energy, major U.S. utilities, municipal energy offices, ISO/RTO stakeholders<br>
+        <strong>Strengths:</strong><br>
+        • Trusted advisor on DER and grid modernization strategy<br>
+        • Strong track record in program design and regulatory support<br>
+        • Ability to bridge policy, technology, and implementation<br>
+        <strong>Weaknesses:</strong><br>
+        • Not a storage integrator in the traditional hardware/software sense<br>
+        • Influence limited to advisory role; execution depends on partners<br>
+        • Less visibility compared to EPC firms or product vendors<br>
+        <strong>Recent News:</strong><br>
+        • Advising on state-level storage incentive programs<br>
+        • Supporting community energy resilience projects across multiple U.S. states<br>
+        <strong>USP:</strong> Independent, multidisciplinary advisor delivering tailored BESS strategies across planning, policy, and stakeholder alignment<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Indirectly involved in hundreds of MWh of grid storage through advisory and interconnection work<br>
+      `,
+
+       "Invinity Energy Systems": `
+        <strong>[DATA]</strong><br>
+        <strong>Industry Segment:</strong> Vanadium Flow Batteries / Long-Duration Energy Storage<br>
+        <strong>Headquarters:</strong> London, United Kingdom<br>
+        <strong>Founded Year:</strong> 2020 (merger of Avalon Battery and RedT Energy)<br>
+        <strong>Funding:</strong> Publicly traded on the London Stock Exchange (AIM: IES); supported by grant funding from UK and EU clean energy programs<br>
+        <strong>Core Products:</strong><br>
+        • VS3 flow battery modules<br>
+        • System design and deployment for long-duration applications<br>
+        • Energy management controls for renewable pairing<br>
+        <strong>Target Market:</strong> Utilities, microgrids, commercial sites with high renewables penetration, and long-duration storage project developers<br>
+        <strong>Key Customers:</strong> EDF, Elemental Energy, National Grid, utility-scale demonstration projects in UK, U.S., and Australia<br>
+        <strong>Strengths:</strong><br>
+        • Durable, non-flammable batteries with unlimited cycling potential<br>
+        • No degradation over time; ideal for daily deep cycling<br>
+        • Positioned to serve long-duration policy and IRA-driven markets<br>
+        <strong>Weaknesses:</strong><br>
+        • Larger footprint and higher capex than lithium-ion systems<br>
+        • Still building commercial momentum and manufacturing scale<br>
+        • Competes with emerging long-duration alternatives like iron-air and thermal<br>
+        <strong>Recent News:</strong><br>
+        • Partnered on flow battery pilot projects in California and Scotland<br>
+        • Secured multi-MWh orders for industrial and remote site applications<br>
+        <strong>USP:</strong> Vanadium flow batteries optimized for high-throughput, long-duration storage with unmatched lifetime performance<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 40 MWh deployed or contracted across North America, UK, EU, and APAC<br>
+      `,
+
+      "LG Energy Solution": `
+        <strong>[BESS]</strong><br>
+        <strong>Industry Segment:</strong> Battery Manufacturing / Grid-Scale & Residential Energy Storage<br>
+        <strong>Headquarters:</strong> Seoul, South Korea<br>
+        <strong>Founded Year:</strong> 2020 (spun out from LG Chem)<br>
+        <strong>Funding:</strong> Publicly traded (KRX: 373220); global market cap exceeding $80 billion<br>
+        <strong>Core Products:</strong><br>
+        • Grid-scale lithium-ion battery cells and racks<br>
+        • Residential ESS solutions (RESU series)<br>
+        • Manufacturing partnerships for EVs and stationary storage<br>
+        <strong>Target Market:</strong> BESS integrators, utilities, auto OEMs, residential installers<br>
+        <strong>Key Customers:</strong> Tesla, GM, Hyundai, Powin Energy, multiple global storage integrators<br>
+        <strong>Strengths:</strong><br>
+        • One of the world’s largest battery producers by capacity<br>
+        • Vertically integrated with cell-to-pack capability<br>
+        • Proven lithium-ion technology for safety, energy density, and cost<br>
+        <strong>Weaknesses:</strong><br>
+        • Not a turnkey system provider (relies on integrators)<br>
+        • Subject to global supply chain constraints and raw material volatility<br>
+        • Safety recalls in past affected brand trust temporarily<br>
+        <strong>Recent News:</strong><br>
+        • Announced major U.S. battery manufacturing plants with GM and Honda<br>
+        • Expanded LFP product line to target grid storage and energy independence<br>
+        <strong>USP:</strong> Global battery powerhouse delivering industry-leading lithium-ion cells at scale across EV, grid, and home energy applications<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Estimated 100,000+ MWh shipped globally across EV and stationary markets<br>
+      `,
+
+      "Nuvation Energy": `
+        <strong>[BMS]</strong><br>
+        <strong>Industry Segment:</strong> Battery Management Systems / Energy Storage Control Systems<br>
+        <strong>Headquarters:</strong> Sunnyvale, California, USA<br>
+        <strong>Founded Year:</strong> 1997<br>
+        <strong>Funding:</strong> Privately held<br>
+        <strong>Core Products:</strong><br>
+        • High-voltage and low-voltage BMS platforms<br>
+        • Battery stack controllers, system controllers, and safety systems<br>
+        • BMS software tools for diagnostics, telemetry, and testing<br>
+        <strong>Target Market:</strong> BESS integrators, battery manufacturers, EV platforms, microgrid developers<br>
+        <strong>Key Customers:</strong> Industrial battery OEMs, energy storage developers, integrators using lithium-ion and alternative chemistries<br>
+        <strong>Strengths:</strong><br>
+        • Highly customizable, safety-certified BMS for both stationary and mobile applications<br>
+        • Supports wide voltage range (12V to over 1500V)<br>
+        • UL 1973, UL 9540, and functional safety compliance<br>
+        <strong>Weaknesses:</strong><br>
+        • Focused on component supply, not full system integration<br>
+        • Limited brand visibility compared to full-stack BESS firms<br>
+        • Competes with low-cost generic BMS from Asia<br>
+        <strong>Recent News:</strong><br>
+        • Expanded support for flow batteries and new chemistries<br>
+        • Partnered with battery manufacturers to accelerate UL certifications<br>
+        <strong>USP:</strong> Flexible, modular BMS platform trusted by top-tier integrators for high-safety and high-voltage applications<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Used in hundreds of storage deployments globally across C&I, grid-scale, and specialty storage markets<br>
+      `,
+
+      "Powin Energy": `
+        <strong>[INTEGRATORS]</strong><br>
+        <strong>Industry Segment:</strong> Battery Storage Integration / Turnkey BESS Platforms / Controls Software<br>
+        <strong>Headquarters:</strong> Tualatin, Oregon, USA<br>
+        <strong>Founded Year:</strong> 2010<br>
+        <strong>Funding:</strong> Privately held; raised over $250 million from Trilantic, GIC, and other institutional investors<br>
+        <strong>Core Products:</strong><br>
+        • Centipede Platform – modular energy storage system<br>
+        • StackOS – controls and energy management software<br>
+        • Engineering, procurement, and lifecycle services<br>
+        <strong>Target Market:</strong> Utilities, IPPs, project developers, and asset operators<br>
+        <strong>Key Customers:</strong> SB Energy, Southern Power, Idaho Power, San Diego Community Power, multiple IPPs<br>
+        <strong>Strengths:</strong><br>
+        • Vertically integrated system delivery with U.S.-based oversight<br>
+        • Rapid growth and strong supply chain resilience<br>
+        • Integrated software and controls stack with real-time optimization<br>
+        <strong>Weaknesses:</strong><br>
+        • Dependent on third-party cell manufacturers (e.g., CATL, LGES)<br>
+        • Faces pressure from global BESS OEMs and EPCs<br>
+        • System designs may limit configurability compared to open platforms<br>
+        <strong>Recent News:</strong><br>
+        • Expanded U.S. and international projects over 6 GWh<br>
+        • Opened new battery assembly facility in Oregon<br>
+        <strong>USP:</strong> High-growth integrator delivering scalable, utility-grade BESS with modular hardware and intelligent controls<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 6,000 MWh contracted or deployed globally<br>
+      `,
+
+      "RePurpose Energy": `
+        <strong>[BESS]</strong><br>
+        <strong>Industry Segment:</strong> Second-Life EV Battery Repurposing / Stationary Storage<br>
+        <strong>Headquarters:</strong> Fairfield, California, USA<br>
+        <strong>Founded Year:</strong> 2015<br>
+        <strong>Funding:</strong> Backed by CalSEED, Elemental Excelerator, and U.S. Department of Energy<br>
+        <strong>Core Products:</strong><br>
+        • Second-life battery storage systems (containerized and cabinet-scale)<br>
+        • Testing and requalification tools for EV packs<br>
+        • Custom-engineered storage for C&I, microgrid, and off-grid applications<br>
+        <strong>Target Market:</strong> C&I customers, schools, municipalities, microgrid operators, fleet managers<br>
+        <strong>Key Customers:</strong> California school districts, electric cooperatives, pilot sites funded by DOE and CEC<br>
+        <strong>Strengths:</strong><br>
+        • Circular economy leader in EV battery reuse<br>
+        • Modular systems built from verified, tested used packs<br>
+        • Strong environmental and cost advantages over new batteries<br>
+        <strong>Weaknesses:</strong><br>
+        • Supply chain dependent on EV battery availability<br>
+        • Regulatory complexity in qualifying second-life systems<br>
+        • Limited deployment scale relative to first-life competitors<br>
+        <strong>Recent News:</strong><br>
+        • Deployed multi-site school energy storage programs across California<br>
+        • Expanded second-life pack diagnostics and traceability platform<br>
+        <strong>USP:</strong> Affordable, emissions-reducing battery systems powered by repurposed EV packs and supported by proprietary testing<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Dozens of systems deployed across California; small but growing footprint under 10 MWh<br>
+      `,
+
+      "Relectrify": `
+        <strong>[BESS, BMS, PCS]</strong><br>
+        <strong>Industry Segment:</strong> Second-Life Battery Systems / Inverterless Storage Tech / Battery Electronics<br>
+        <strong>Headquarters:</strong> Melbourne, Australia<br>
+        <strong>Founded Year:</strong> 2015<br>
+        <strong>Funding:</strong> Backed by Clean Energy Finance Corporation, Toyota Ventures, and private capital<br>
+        <strong>Core Products:</strong><br>
+        • Cell-level BMS and battery inverter combined (BMS+PCS in one)<br>
+        • ReVolve second-life battery system<br>
+        • Embedded software for direct AC output from battery packs<br>
+        <strong>Target Market:</strong> BESS integrators, off-grid operators, industrial users, microgrids, and EV reuse channels<br>
+        <strong>Key Customers:</strong> Toyota Tsusho, Nissan, Sumitomo, and several pilot partners in Asia-Pacific and Europe<br>
+        <strong>Strengths:</strong><br>
+        • Unique cell-level control with combined inverter and BMS functionality<br>
+        • Reduces cost and complexity by eliminating standalone PCS<br>
+        • Ideal for second-life battery applications needing fine-grained management<br>
+        <strong>Weaknesses:</strong><br>
+        • Still early in commercial scaling and UL/global certification<br>
+        • Nontraditional architecture may require education of partners<br>
+        • Focused on second-life only, limiting total market size<br>
+        <strong>Recent News:</strong><br>
+        • Launched commercial pilot of inverterless systems with Nissan batteries<br>
+        • Entered strategic collaboration with Toyota group in 2023<br>
+        <strong>USP:</strong> Inverterless energy storage architecture that unifies BMS and PCS, enabling low-cost, plug-and-play battery reuse<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Early-stage deployments across pilot and microgrid sites; total MWh in low double digits<br>
+      `,
+
+      "SMA": `
+        <strong>[PCS]</strong><br>
+        <strong>Industry Segment:</strong> Solar Inverters / Energy Management Systems / Grid Integration<br>
+        <strong>Headquarters:</strong> Niestetal, Germany<br>
+        <strong>Founded Year:</strong> 1981<br>
+        <strong>Funding:</strong> Publicly traded (XETRA: S92)<br>
+        <strong>Core Products:</strong><br>
+        • Sunny Central Storage and Core1 inverters<br>
+        • Power Plant Manager and SMA Data Manager<br>
+        • EV charging, battery integration, and grid services firmware<br>
+        <strong>Target Market:</strong> Residential, commercial, and utility-scale solar-plus-storage developers<br>
+        <strong>Key Customers:</strong> Europe- and U.S.-based EPCs, solar developers, inverter distributors, and grid operators<br>
+        <strong>Strengths:</strong><br>
+        • Proven, grid-stabilizing inverters for storage and renewables<br>
+        • Modular PCS solutions with VPP and EMS compatibility<br>
+        • Strong global channel presence and firmware flexibility<br>
+        <strong>Weaknesses:</strong><br>
+        • Competes with lower-cost Chinese inverter makers<br>
+        • Historically stronger in solar than in storage-specific applications<br>
+        • PCS-only offering lacks turnkey storage solutions<br>
+        <strong>Recent News:</strong><br>
+        • Upgraded central inverters for LFP compatibility and large-scale BESS<br>
+        • Added enhanced VPP support to Power Plant Manager firmware<br>
+        <strong>USP:</strong> Grid-proven inverter portfolio with advanced grid-code compliance and seamless integration for solar-plus-storage applications<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Thousands of MW deployed worldwide in solar and hybrid energy storage projects<br>
+      `,
+
+      "Schneider Electric": `
+        <strong>[INTEGRATORS]</strong><br>
+        <strong>Industry Segment:</strong> Energy Management / Power Distribution / Grid-Scale Storage Integration<br>
+        <strong>Headquarters:</strong> Rueil-Malmaison, France<br>
+        <strong>Founded Year:</strong> 1836<br>
+        <strong>Funding:</strong> Publicly traded (EPA: SU)<br>
+        <strong>Core Products:</strong><br>
+        • EcoStruxure Microgrid and Grid automation platform<br>
+        • Battery storage integration with switchgear and T&D systems<br>
+        • Energy control centers, building management, and DER coordination tools<br>
+        <strong>Target Market:</strong> Utilities, commercial and industrial campuses, microgrid developers, large energy consumers<br>
+        <strong>Key Customers:</strong> Amazon, Microsoft, U.S. Department of Defense, Enel X, multiple global utilities and campuses<br>
+        <strong>Strengths:</strong><br>
+        • Global leader in energy management with robust hardware + software stack<br>
+        • Turnkey integration of BESS into broader electrical infrastructure<br>
+        • Deep partnerships with OEMs and service providers<br>
+        <strong>Weaknesses:</strong><br>
+        • Not a standalone BESS vendor — integrates with third-party batteries<br>
+        • Large organizational structure may limit agility<br>
+        • Solutions can carry premium price tags<br>
+        <strong>Recent News:</strong><br>
+        • Acquired AutoGrid to enhance DERMS and VPP capabilities<br>
+        • Expanded global microgrid-as-a-service offerings<br>
+        <strong>USP:</strong> Full-spectrum electrical integration company delivering reliable BESS and DER coordination as part of larger infrastructure ecosystems<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Thousands of MWh integrated through grid, microgrid, and commercial building platforms globally<br>
+      `,
+
+      "Smartville": `
+        <strong>[BESS]</strong><br>
+        <strong>Industry Segment:</strong> Second-Life EV Battery Repurposing / Modular Energy Storage<br>
+        <strong>Headquarters:</strong> Carlsbad, California, USA<br>
+        <strong>Founded Year:</strong> 2019<br>
+        <strong>Funding:</strong> $26M+ in federal and state funding; $10M DOE award for long-duration energy storage<br>
+        <strong>Core Products:</strong><br>
+        • Periscope – field diagnostics tool for EV batteries<br>
+        • Mana Power – home energy interface<br>
+        • Smartville 360 – modular, containerized energy storage system<br>
+        <strong>Target Market:</strong> Utilities, university research labs, residential markets, DOE pilot sites, off-grid applications<br>
+        <strong>Key Customers:</strong> UC San Diego, Nissan, Historically Black Colleges and Universities (HBCUs), DOE-backed projects<br>
+        <strong>Strengths:</strong><br>
+        • Real-time field diagnostics for EV battery health<br>
+        • Modular, scalable storage design with traceable EV battery reuse<br>
+        • Recognized DOE innovator in circular battery economy<br>
+        <strong>Weaknesses:</strong><br>
+        • Limited commercial deployments outside of demonstration sites<br>
+        • High dependency on public funding and battery sourcing<br>
+        • Competes with full-lifecycle OEM-integrated storage systems<br>
+        <strong>Recent News:</strong><br>
+        • Selected by DOE for LDES initiative funding<br>
+        • Deployed 15+ MWh across California at public institutions and campuses<br>
+        <strong>USP:</strong> Plug-and-play storage system built around smart reuse of EV battery packs with diagnostic, traceability, and modularity as core features<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 15 MWh deployed across California research and public sector projects<br>
+      `,
+
+      "Stem Inc.": `
+        <strong>[DATA, EMS]</strong><br>
+        <strong>Industry Segment:</strong> Energy Storage Optimization / AI-Powered Controls / DERMS<br>
+        <strong>Headquarters:</strong> San Francisco, California, USA<br>
+        <strong>Founded Year:</strong> 2009<br>
+        <strong>Funding:</strong> Publicly traded (NYSE: STEM) via SPAC merger in 2021<br>
+        <strong>Core Products:</strong><br>
+        • Athena – AI-driven EMS and optimization platform<br>
+        • BESS integration with partner hardware<br>
+        • Solar + storage operations, forecasting, and bidding<br>
+        <strong>Target Market:</strong> C&I facilities, solar developers, community choice aggregators, grid-edge asset operators<br>
+        <strong>Key Customers:</strong> AlsoEnergy, Walmart, Southern California Edison, multiple CCAs and IPPs<br>
+        <strong>Strengths:</strong><br>
+        • Proven software-first BESS platform with real-time grid response<br>
+        • Integrated controls and market bidding for asset monetization<br>
+        • Strong partnerships across battery and solar value chain<br>
+        <strong>Weaknesses:</strong><br>
+        • Dependent on hardware partnerships for turnkey delivery<br>
+        • Recent market volatility has impacted revenue consistency<br>
+        • Faces strong competition from newer optimization platforms<br>
+        <strong>Recent News:</strong><br>
+        • Integrated AlsoEnergy for solar + storage fleet visibility<br>
+        • Expanded Athena’s capabilities in ISO markets and VPPs<br>
+        <strong>USP:</strong> AI-powered software platform optimizing BESS across technical, financial, and market dimensions — with cloud-native scalability<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Controls over 3,000 MWh of assets globally through Athena platform<br>
+      `,
+
+      "Sungrow": `
+        <strong>[PCS]</strong><br>
+        <strong>Industry Segment:</strong> Power Conversion Systems / Solar and Storage Inverters / Grid Integration<br>
+        <strong>Headquarters:</strong> Hefei, China<br>
+        <strong>Founded Year:</strong> 1997<br>
+        <strong>Funding:</strong> Publicly traded (SHE: 300274)<br>
+        <strong>Core Products:</strong><br>
+        • STS series PCS and turnkey BESS containers<br>
+        • Central and string solar inverters<br>
+        • PV + storage hybrid and microgrid systems<br>
+        <strong>Target Market:</strong> Utility-scale solar and storage developers, EPCs, microgrid integrators, global inverter distributors<br>
+        <strong>Key Customers:</strong> Global EPCs and IPPs in Asia, Europe, North America, and MENA<br>
+        <strong>Strengths:</strong><br>
+        • One of the world’s top PCS manufacturers by volume<br>
+        • High-efficiency inverters with broad grid code compatibility<br>
+        • Competitive pricing with global supply capabilities<br>
+        <strong>Weaknesses:</strong><br>
+        • Perceived as hardware-centric vs. full-stack solution provider<br>
+        • Geopolitical and regulatory risks related to China-based manufacturing<br>
+        • Service and support infrastructure in North America still scaling<br>
+        <strong>Recent News:</strong><br>
+        • Released high-capacity 1,500V PCS optimized for LFP chemistries<br>
+        • Expanded North America presence with larger service footprint<br>
+        <strong>USP:</strong> Globally trusted PCS supplier known for cost-effective, high-reliability inverters across solar and storage markets<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Tens of thousands of MW in solar + storage inverter deployments globally<br>
+      `,
+
+      "TWAICE": `
+        <strong>[BMS, DATA]</strong><br>
+        <strong>Industry Segment:</strong> Battery Analytics / Predictive Maintenance / Lifecycle Intelligence<br>
+        <strong>Headquarters:</strong> Munich, Germany<br>
+        <strong>Founded Year:</strong> 2018<br>
+        <strong>Funding:</strong> Raised over $75 million from investors including BMW i Ventures and Coatue<br>
+        <strong>Core Products:</strong><br>
+        • Battery analytics software for degradation and lifetime modeling<br>
+        • Digital twins for BESS and EV battery monitoring<br>
+        • Integration APIs for OEMs, asset operators, and fleet managers<br>
+        <strong>Target Market:</strong> Battery manufacturers, fleet operators, BESS asset managers, insurers, and OEMs<br>
+        <strong>Key Customers:</strong> Audi, Verbund, PowerCo (Volkswagen), battery developers and financiers<br>
+        <strong>Strengths:</strong><br>
+        • Market leader in battery digital twin technology<br>
+        • Enables early detection of battery faults and warranty cost reduction<br>
+        • Strong traction with EV OEMs and utility-scale BESS analytics<br>
+        <strong>Weaknesses:</strong><br>
+        • No direct control system or hardware — data-only product<br>
+        • Scaling in North America still in early stages<br>
+        • Complex integrations may deter smaller operators<br>
+        <strong>Recent News:</strong><br>
+        • Partnered with PowerCo and Verbund on European storage fleet monitoring<br>
+        • Expanded U.S. office to support BESS owners and insurers<br>
+        <strong>USP:</strong> Digital twin software delivering actionable battery intelligence for performance forecasting, safety assurance, and asset valuation<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Monitoring thousands of MWh in EV and BESS fleets across Europe and expanding into North America<br>
+      `,
+
+      "Tesla Energy": `
+        <strong>[BESS, INTEGRATORS]</strong><br>
+        <strong>Industry Segment:</strong> Grid-Scale & Residential Energy Storage / Solar Integration / EV Infrastructure<br>
+        <strong>Headquarters:</strong> Palo Alto, California, USA<br>
+        <strong>Founded Year:</strong> 2006 (Energy division formally branded in 2015)<br>
+        <strong>Funding:</strong> Publicly traded (NASDAQ: TSLA)<br>
+        <strong>Core Products:</strong><br>
+        • Megapack – grid-scale lithium-ion energy storage system<br>
+        • Powerwall – residential storage unit<br>
+        • Powerpack – C&I modular battery system<br>
+        • Autobidder – AI-driven energy trading and optimization software<br>
+        <strong>Target Market:</strong> Utilities, solar developers, homeowners, community choice aggregators, virtual power plant operators<br>
+        <strong>Key Customers:</strong> PG&E, Hawaiian Electric, Neoen (Australia), Tesla VPP participants, utility-scale solar + storage projects worldwide<br>
+        <strong>Strengths:</strong><br>
+        • Vertically integrated solution from battery to EMS to AI trading<br>
+        • Global brand trust and massive manufacturing scale<br>
+        • Proprietary software and inverter ecosystem<br>
+        <strong>Weaknesses:</strong><br>
+        • Closed system with limited third-party interoperability<br>
+        • Delivery timelines have varied with demand surges<br>
+        • Perceived premium pricing in residential sector<br>
+        <strong>Recent News:</strong><br>
+        • Expanded Megapack production at Lathrop “Megafactory” to over 40 GWh/year<br>
+        • Deployed large VPPs in California and Australia using Autobidder<br>
+        <strong>USP:</strong> End-to-end clean energy platform combining storage, solar, EV, and software into a unified grid-scale and residential ecosystem<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Over 20,000 MWh deployed globally through Megapack, Powerwall, and Powerpack<br>
+      `,
+
+      "Valence": `
+        <strong>[BMS]</strong><br>
+        <strong>Industry Segment:</strong> Battery Management Systems / Lithium Iron Magnesium Phosphate Batteries / Industrial Storage<br>
+        <strong>Headquarters:</strong> Henderson, Nevada, USA<br>
+        <strong>Founded Year:</strong> 1989<br>
+        <strong>Funding:</strong> Privately held; formerly publicly traded until 2013<br>
+        <strong>Core Products:</strong><br>
+        • Safe lithium magnesium iron phosphate battery packs<br>
+        • Custom-engineered BMS for motive and stationary applications<br>
+        • Battery modules for robotics, medical, telecom, and light EVs<br>
+        <strong>Target Market:</strong> Material handling, telecom, medical devices, robotics, mobility, and light electric vehicle sectors<br>
+        <strong>Key Customers:</strong> OEMs in warehouse automation, off-grid telecom, industrial vehicles, and military logistics<br>
+        <strong>Strengths:</strong><br>
+        • Proven chemistry with high thermal stability<br>
+        • Field-proven BMS for ruggedized, regulated environments<br>
+        • Custom solutions for specialized industrial markets<br>
+        <strong>Weaknesses:</strong><br>
+        • Not active in utility-scale energy storage<br>
+        • Limited visibility in current renewables or grid projects<br>
+        • Primarily focused on niche/legacy applications<br>
+        <strong>Recent News:</strong><br>
+        • Continuing expansion of industrial battery module line for telecom and robotics sectors<br>
+        <strong>USP:</strong> Legacy battery innovator offering extremely safe, durable lithium packs and BMS for mission-critical applications<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Thousands of smaller-scale modules shipped globally; footprint focused in industrial and telecom applications<br>
+      `,
+
+      "Yaskawa Solectria": `
+        <strong>[PCS]</strong><br>
+        <strong>Industry Segment:</strong> Solar Inverters / Grid-Connected PCS / EV and Motion Control<br>
+        <strong>Headquarters:</strong> Lawrence, Massachusetts, USA<br>
+        <strong>Founded Year:</strong> 2005 (acquired by Yaskawa Electric Corporation in 2014)<br>
+        <strong>Funding:</strong> Subsidiary of Yaskawa Electric Corporation (Tokyo: 6506)<br>
+        <strong>Core Products:</strong><br>
+        • XGI 1000 and 1500 series inverters (string and central)<br>
+        • Grid-tied inverters for solar + storage hybrid use<br>
+        • Smart inverter controls with UL and IEEE grid compliance<br>
+        <strong>Target Market:</strong> Commercial, industrial, and utility-scale solar developers; community solar and municipal installations<br>
+        <strong>Key Customers:</strong> U.S. EPC firms, community solar providers, and institutional C&I energy users<br>
+        <strong>Strengths:</strong><br>
+        • U.S.-based design and service for utility-grade inverters<br>
+        • Strong compliance with evolving grid codes (IEEE 1547, UL 1741)<br>
+        • Backed by global leader in industrial automation<br>
+        <strong>Weaknesses:</strong><br>
+        • Inverters only — does not offer energy storage hardware or integration services<br>
+        • Smaller footprint than global inverter giants<br>
+        • Dependent on third-party BESS partners for hybrid projects<br>
+        <strong>Recent News:</strong><br>
+        • Expanded 1,500V product line for higher-voltage PV and hybrid systems<br>
+        <strong>USP:</strong> Reliable, grid-compliant inverter solutions made in the U.S. and supported by global motion control expertise<br>
+        <strong>MWh Deployed/Market Footprint:</strong> Thousands of MW of solar inverter deployments across North America; used in hybrid projects with third-party storage<br>
+      `,
+
+      
+
+      
+
+
+
+
+
+
+
+    };
+
+    function openModal(title, companies) {
+      document.getElementById('modalTitle').innerText = title;
+      const container = document.getElementById('modalContent');
+      container.innerHTML = '';
+      companies.forEach(name => {
+        const div = document.createElement('div');
+        div.className = 'company-bubble';
+        div.innerText = name;
+        div.onclick = () => {
+          if (companyData[name]) {
+            container.innerHTML = `<div class='close-btn' onclick='openModal("${title}", ${JSON.stringify(companies)})'>&larr;</div><h2>${name}</h2><div style='margin-top: 10px;'>${companyData[name]}</div>`;
+          } else {
+            alert(`Company data for: ${name}`);
+          }
+        };
+        container.appendChild(div);
+      });
+      document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
